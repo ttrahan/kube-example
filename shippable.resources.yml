@@ -11,6 +11,12 @@ resources:
 
 ################################
 
+  - name: cluster-kube
+    type: cluster
+    integration: ttrahan-kube
+
+################################
+
 # Docker Image
   - name: img-sample-kube
     type: image
@@ -35,7 +41,7 @@ resources:
 # TEST resources
 
 # Docker Image Options
-  - name: img-opts-sample-kube
+  - name: img-opts-sample-kube-test
     type: dockerOptions
     version:
       memory: 64
@@ -59,3 +65,19 @@ resources:
       params:
         ENVIRONMENT: "PROD"
         PORT: 80
+
+# Docker Image Options
+  - name: img-opts-sample-kube-prod
+    type: dockerOptions
+    version:
+      memory: 128
+      cpuShares: ".5"
+      portMappings:
+        - 80:80
+      publishAllPorts : true
+
+# PROD replica controller
+  - name: replicas-sample-prod-kube
+    type: replicas
+    version:
+      count: 2

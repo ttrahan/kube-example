@@ -5,6 +5,11 @@ A simple Node.js application with deployment to a Kubernetes cluster running on 
 Instructions for launching the cluster:
 https://kubernetes.io/docs/getting-started-guides/kops/
 
+OPTIONAL: specify an existing AWS key pair to use for SSH access to the cluster
+```
+AWS_SSH_KEY={your key pair name}
+```
+
 Build the cluster configuration:
 ```
 kops create cluster --zones=us-east-1c useast1.dev.example-kube-cluster.com

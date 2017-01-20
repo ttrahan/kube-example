@@ -6,29 +6,28 @@ jobs:
 
 # add pipeline workflow
 # TEST deployment to Kube cluster on AWS
-  - name: kube-deploy-test-sample
-    type: runSh
+  - name: man-sample-kube
+    type: manifest
     steps:
-      - IN: repo-sample-kube
-        switch: off
-      - IN: params-sample-test-kube
-      - IN: int-aws
       - IN: img-sample-kube
-      - IN: img-opts-sample-test-kube
-      - TASK:
-        - script: . /build/IN/repo-sample-kube/gitRepo/pipeline/prepEnvironment.sh kube-deploy-test-sample repo-sample-kube params-sample-test-kube int-aws img-sample-kube img-opts-sample-test-kube
-        - script: . /build/IN/repo-sample-kube/gitRepo/pipeline/deploy.sh
+      - IN: img-opts-sample-kube-test
 
-# # add pipeline workflow
-# # PROD deployment to Kube cluster on AWS
-#   - name: kube-deploy-prod-sample
-#     type: runSh
-#     steps:
-#       - IN: kube-deploy-prod-sample
-#         switch: off
-#       - IN: params-sample-prod-kube
-#       - IN: int-aws
-#       - IN: img-opts-sample-prod-kube
-#       - TASK:
-#         - script: . /build/IN/repo-sample-kube/gitRepo/pipeline/prepEnvironmentProd.sh kube-deploy-prod-sample repo-sample-kube params-sample-prod-kube int-aws kube-deploy-test-sample img-opts-sample-kube
-#         - script: . /build/IN/repo-sample-kube/gitRepo/pipeline/deploy.sh
+  - name: kube-deploy-test-sample
+    type: deploy
+    steps:
+      - IN: man-sample-kube
+      - IN: cluster-kube
+      - IN: params-sample-test-kube
+      - TASK: managed
+        deployMethod: upgrade
+
+# PROD deployment to Kube cluster on AWS
+  - name: kube-deploy-prod-sample
+    type: deploy
+    steps:
+      - IN: kube-deploy-test-sample
+      - IN: cluster-kube
+      - IN: params-sample-prod-kube
+      - IN: replicas-sample-prod-kube
+      - TASK: managed
+        deployMethod: upgrade
