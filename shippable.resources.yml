@@ -4,13 +4,6 @@ resources:
 
 ################################
 
-# Integration to that stores AWS credentials
-  - name: int-aws
-    type: integration
-    integration: ttrahan-aws
-
-################################
-
   - name: cluster-kube
     type: cluster
     integration: ttrahan-kube
@@ -26,15 +19,15 @@ resources:
     seed:
       versionName: master.1
 
-################################
-
-# application code
-  - name: repo-sample-kube
-    type: gitRepo
-    integration: ttrahan-gh
+# Docker Image
+  - name: img-nginx-kube
+    type: image
+    integration: ttrahan-dh
     pointer:
-      sourceName: ttrahan/kube-example
-      branch: master
+      sourceName: nginx
+    seed:
+      versionName: 1.7.9
+
 
 ################################
 
