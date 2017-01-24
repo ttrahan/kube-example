@@ -29,3 +29,6 @@ get_docker_options $OPTIONS
 # install required CLIs
 install_AwsCli
 install_KubectlCli
+
+# load previous state
+get_previous_statefile
